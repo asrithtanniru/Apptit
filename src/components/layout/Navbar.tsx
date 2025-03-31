@@ -1,63 +1,170 @@
-// components/layout/Navbar.tsx
 'use client'
 
-import Link from 'next/link'
-import { useState } from 'react'
-import ThemeSwitcher from '../ThemeSwitcher'
+import Link from 'next/link';
+import { useSession, signOut } from 'next-auth/react';
+import ThemeSwitcher from '../ThemeSwitcher';
+import {
+  AiOutlineMenu,
+  AiOutlineHome,
+  AiOutlineFileSearch,
+  AiOutlineDatabase,
+  AiOutlineDollar,
+  AiOutlineHeart,
+  AiOutlineBell,
+  AiOutlineUser,
+  AiOutlineLogout,
+  AiOutlineSetting,
+} from 'react-icons/ai';
+import { CiBookmark,CiBellOn } from "react-icons/ci";
 
 
 export default function Navbar() {
-  const isLoggedIn = false; // In a real app, you would check auth state
-  
+  const { data: session, status } = useSession();
+  const isLoggedIn = status === 'authenticated';
+
+  const homeRedirect = isLoggedIn ? '/jobs' : '/';
+
   return (
     <div className="navbar bg-base-100 shadow-md px-4 md:px-8 py-3">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" />
-            </svg>
+            <AiOutlineMenu className="h-6 w-6" />
           </div>
-          <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-            <li><Link href="/jobs" className="font-sans font-quicksand textarea-md">All Jobs</Link></li>
-            <li><Link href="/sources" className="font-medium">Job Sources</Link></li>
-            <li><Link href="/pricing" className="font-medium">Pricing</Link></li>
+          <ul
+            tabIndex={0}
+            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+          >
+            <li>
+              <Link href="/jobs" className="font-sans font-quicksand text-md">
+                <AiOutlineFileSearch className="mr-2" />
+                All Jobs
+              </Link>
+            </li>
+            <li>
+              <Link href="/sources" className="font-medium">
+                <AiOutlineDatabase className="mr-2" />
+                Job Sources
+              </Link>
+            </li>
             {isLoggedIn && (
               <>
-                <li><Link href="/saved-jobs">Saved Jobs</Link></li>
-                <li><Link href="/job-alerts">Job Alerts</Link></li>
-                <li><Link href="/profile">Profile</Link></li>
+                
+                <li>
+                  <Link href="/job-alerts">
+                    <AiOutlineBell className="mr-2" />
+                    Job Alerts
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/profile">
+                    <AiOutlineUser className="mr-2" />
+                    Profile
+                  </Link>
+                </li>
+                <li>
+                  <button onClick={() => signOut({ callbackUrl: '/' })} 
+                  className="font-medium">
+                    <AiOutlineLogout className="mr-2" />
+                    Logout
+                  </button>
+                </li>
               </>
+            )}
+            {!isLoggedIn && (
+              <li>
+                <Link href="/login">Login</Link>
+              </li>
             )}
           </ul>
         </div>
-        <Link href="/" className="flex items-center gap-2">
+        <Link href={homeRedirect} className="flex items-center gap-2">
           <span className="text-primary text-3xl font-bold">Apptit</span>
         </Link>
       </div>
-      
+
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
-          <li><Link href="/jobs" className="font-medium text-sm">All Jobs</Link></li>
-          <li><Link href="/sources" className="font-medium text-sm">Job Sources</Link></li>
-          <li><Link href="/pricing" className="font-medium text-sm">Pricing</Link></li>
+          <li>
+            <Link href="/login" className="font-medium text-sm">
+              All Jobs
+            </Link>
+          </li>
+          <li>
+            <Link href="/sources" className="font-medium text-sm">
+              Job Sources
+            </Link>
+          </li>
           {isLoggedIn && (
             <>
-              <li><Link href="/saved-jobs" className="font-medium text-sm">Saved Jobs</Link></li>
-              <li><Link href="/job-alerts" className="font-medium text-sm">Job Alerts</Link></li>
+              <li>
+                <Link href="/saved-jobs" className="font-medium text-sm">
+                  <CiBookmark className="-mr-0.5" />
+                  Saved Jobs
+                </Link>
+              </li>
+              <li>
+                <Link href="/job-alerts" className="font-medium text-sm">
+                  <CiBellOn className="-mr-0.5" />
+                  Job Alerts
+                </Link>
+              </li>
             </>
           )}
         </ul>
       </div>
-      
-      <div className="navbar-end gap-2">
+
+      <div className="navbar-end gap-3">
         <ThemeSwitcher />
         {isLoggedIn ? (
-          <button className="btn btn-ghost btn-md ml-5 mb-1.5">Logout</button>
+          <div className="dropdown dropdown-end">
+            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+              <div className="w-10 rounded-full">
+                {session?.user?.image ? (
+                  <img src={session?.user?.image} alt="User Avatar" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-gray-300 text-gray-600 rounded-full">
+                    <AiOutlineUser className="h-6 w-6" />
+                  </div>
+                )}
+              </div>
+            </div>
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+            >
+              <li>
+                <Link href="/profile" className="justify-between">
+                  Profile
+                  {/* <span className="badge">New</span> */}
+                  <AiOutlineUser className="mr-2" />
+                </Link>
+              </li>
+              <li>
+                <Link href="/settings" className="justify-between">Settings
+                <AiOutlineSetting className="mr-2" />
+                </Link>
+              </li>
+              <li>
+                <button 
+                
+                  onClick={async () => {
+                    await signOut({ redirect: false })
+                    window.location.href = '/'
+                  }}
+                  className="justify-between"
+                >Logout
+                <AiOutlineLogout className="mr-2" />
+                </button>
+              </li>
+            </ul>
+          </div>
         ) : (
-          <Link href="/login" className="btn btn-primary btn-md ml-5 mb-1.5">Login</Link>
+          <Link href="/login" className="btn btn-primary btn-md">
+            Login
+          </Link>
         )}
       </div>
     </div>
-  )
+  );
 }

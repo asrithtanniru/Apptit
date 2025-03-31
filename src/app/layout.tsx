@@ -5,6 +5,7 @@ import Navbar from '@/components/layout/Navbar'
 import { Poppins } from 'next/font/google';
 import { Quicksand } from 'next/font/google';
 import Footer from '@/components/layout/Footer'
+import { AuthProvider } from '@/components/auth/auth-provider';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -34,6 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={poppins.className}>
+      <AuthProvider>
         <div className="min-h-screen flex flex-col">
           <Navbar />
           <main className={`${quicksand.className} flex-grow`}>
@@ -41,6 +43,7 @@ export default function RootLayout({
           </main>
           <Footer />
         </div>
+        </AuthProvider>
       </body>
     </html>
   )
