@@ -1,4 +1,4 @@
-// components/jobs/SearchBar.tsx
+
 'use client'
 
 import { useState } from 'react'
@@ -42,7 +42,7 @@ export default function SearchBar() {
             />
           </div>
           
-          <div className="form-control md:mt-8">
+          <div className="form-control md:mt-5">
             <button type="submit" className="btn btn-primary">Search</button>
           </div>
         </div>

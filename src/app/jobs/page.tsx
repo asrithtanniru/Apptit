@@ -14,6 +14,33 @@ const mockJobs = [
     postedAt: '2 days ago',
     description: 'Looking for an experienced frontend developer...'
   },
+  {
+    id: '2',
+    title: 'Frontend Developer',
+    company: 'Tech Corp',
+    location: 'Remote',
+    salary: '$80,000 - $100,000',
+    postedAt: '2 days ago',
+    description: 'Looking for an experienced frontend developer...'
+  },
+  {
+    id: '3',
+    title: 'Frontend Developer',
+    company: 'Tech Corp',
+    location: 'Remote',
+    salary: '$80,000 - $100,000',
+    postedAt: '2 days ago',
+    description: 'Looking for an experienced frontend developer...'
+  },
+  {
+    id: '4',
+    title: 'Frontend Developer',
+    company: 'Tech Corp',
+    location: 'Remote',
+    salary: '$80,000 - $100,000',
+    postedAt: '2 days ago',
+    description: 'Looking for an experienced frontend developer...'
+  },
 
 ]
 
