@@ -1,17 +1,20 @@
-
 'use client'
 
 import { useState } from 'react'
 
-export default function SearchBar() {
-  const [query, setQuery] = useState('')
-  const [location, setLocation] = useState('')
-  
+interface SearchBarProps {
+  onSearch: (query: string, location: string) => void;
+}
+
+export default function SearchBar({ onSearch }: SearchBarProps) {
+  const [query, setQuery] = useState<string>('')
+  const [location, setLocation] = useState<string>('')
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Searching for:', { query, location })
+    onSearch(query, location)
   }
-  
+
   return (
     <form onSubmit={handleSearch} className="card bg-base-100 shadow-xl">
       <div className="card-body">
@@ -28,7 +31,7 @@ export default function SearchBar() {
               onChange={(e) => setQuery(e.target.value)}
             />
           </div>
-          
+
           <div className="form-control w-full">
             <label className="label">
               <span className="label-text">Where</span>
@@ -41,7 +44,7 @@ export default function SearchBar() {
               onChange={(e) => setLocation(e.target.value)}
             />
           </div>
-          
+
           <div className="form-control md:mt-5">
             <button type="submit" className="btn btn-primary">Search</button>
           </div>

@@ -62,7 +62,7 @@ export default function ProfilePage() {
               <div className="avatar">
                 <div className="w-32 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
                   {userImage ? (
-                    <img src={userImage} alt={`${userName}'s avatar`} />
+                    <img src={userImage} alt={`${userName}'s`} />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center bg-gray-300 text-gray-600">
                       <AiOutlineUser className="h-12 w-12" />
