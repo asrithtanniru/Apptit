@@ -11,7 +11,7 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   pages: {
-      signIn: '/login',
+    signIn: '/login',
   },
   callbacks: {
     async session({ session, token }) {
@@ -19,6 +19,12 @@ export const authOptions: NextAuthOptions = {
     },
     async redirect({ url, baseUrl }) {
       return url.startsWith(baseUrl) ? url : baseUrl + '/jobs';
+    },
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
     },
   },
 };

@@ -1,48 +1,40 @@
-// components/jobs/JobCard.tsx
-import Link from 'next/link'
+import { Job } from '@/types/jobs'
 
-type JobProps = {
-  job: {
-    id: string
-    title: string
-    company: string
-    location: string
-    salary: string
-    postedAt: string
-    description: string
-  }
+interface JobCardProps {
+  job: Job;
 }
 
-export default function JobCard({ job }: JobProps) {
+export default function JobCard({ job }: JobCardProps) {
   return (
-    <div className="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow">
+    <div className="card bg-base-100 shadow-md hover:shadow-lg transition-shadow">
       <div className="card-body">
         <h2 className="card-title">
-          <Link href={`/jobs/${job.id}`} className="hover:text-primary">
-            {job.title}
-          </Link>
+          {job.title}
+          {job.source && (
+            <div className="badge badge-secondary">{job.source}</div>
+          )}
         </h2>
-        
-        <div>
-          <div className="font-medium">{job.company}</div>
-          <div className="text-sm opacity-70 flex gap-2">
-            <span>{job.location}</span>
-            <span>•</span>
-            <span>{job.salary}</span>
-          </div>
-        </div>
-        
-        <p className="line-clamp-2">{job.description}</p>
-        
-        <div className="card-actions justify-between items-center mt-2">
-          <span className="text-sm opacity-60">{job.postedAt}</span>
-          
-          <div className="flex gap-2">
-            <button className="btn btn-sm btn-outline">Save</button>
-            <Link href={`/jobs/${job.id}`} className="btn btn-sm btn-primary">
-              View
-            </Link>
-          </div>
+        <p className="text-sm text-gray-600">
+          {job.company} • {job.location}
+          {job.salary && ` • ${job.salary}`}
+        </p>
+        {job.postedAt && (
+          <p className="text-xs text-gray-500">Posted {job.postedAt}</p>
+        )}
+        {job.description && (
+          <p className="mt-2 text-gray-700">{job.description}</p>
+        )}
+        <div className="card-actions justify-end mt-2">
+          {job.link && (
+            <a 
+              href={job.link} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="btn btn-primary btn-sm"
+            >
+              View Job
+            </a>
+          )}
         </div>
       </div>
     </div>
