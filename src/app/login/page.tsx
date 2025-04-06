@@ -6,20 +6,38 @@ import { useEffect, useState } from 'react'
 import axios from "axios"
 import { Session } from "next-auth"
 
+interface BackendUserResponse {
+  message: string;
+  email: string;
+  user_id: number;
+}
+
 export default function Login() {
-  const { data: session, status } = useSession()
+  const { data: session, status, update } = useSession()
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [debugInfo, setDebugInfo] = useState<string | null>(null)
 
-  //user in DB after login
   useEffect(() => {
     const storeUser = async () => {
       if (status === "authenticated" && session?.user?.email) {
         setDebugInfo("Session found, attempting to store user...");
         try {
-          await storeUserInDB(session);
+
+          const userData = await storeUserInDB(session);
+
+
+          if (userData && userData.user_id) {
+            await update({
+              ...session,
+              user: {
+                ...session.user,
+                backendId: userData.user_id
+              }
+            });
+          }
+
           setDebugInfo("User stored successfully, redirecting...");
           router.push('/jobs');
         } catch (err) {
@@ -32,11 +50,11 @@ export default function Login() {
     if (status === "authenticated") {
       storeUser();
     }
-  }, [session, status, router]);
+  }, [session, status, router, update]);
 
-  // Function to store user in FastAPI DB with explicit API URL
-  const storeUserInDB = async (session: Session) => {
-    // Using environment variable or hardcoded URL as fallback
+
+  const storeUserInDB = async (session: Session): Promise<BackendUserResponse> => {
+
     const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
     const endpoint = `${API_URL}/auth/google`;
 
@@ -47,7 +65,7 @@ export default function Login() {
     });
 
     try {
-      const response = await axios.post(endpoint, {
+      const response = await axios.post<BackendUserResponse>(endpoint, {
         name: session?.user?.name,
         email: session?.user?.email
       }, {
@@ -60,6 +78,12 @@ export default function Login() {
 
       console.log("Backend response:", response.data);
       setDebugInfo(`Backend response status: ${response.status}`);
+
+
+      if (response.data.user_id) {
+        localStorage.setItem('backendUserId', response.data.user_id.toString());
+      }
+
       return response.data;
     } catch (error: any) {
       if (error.response) {
@@ -68,10 +92,9 @@ export default function Login() {
         setDebugInfo(`Error status: ${error.response.status}`);
       } else if (error.request) {
         // Request was made but no response was received
-        console.error("No response received:", error.request);
+
         setDebugInfo("No response from server - check if backend is running");
       } else {
-        // Error in setting up the request
         console.error("Request setup error:", error.message);
         setDebugInfo(`Request error: ${error.message}`);
       }
