@@ -15,7 +15,7 @@ import {
   AiOutlineLogout,
   AiOutlineSetting,
 } from 'react-icons/ai';
-import { CiBookmark,CiBellOn } from "react-icons/ci";
+import { CiBookmark, CiBellOn } from "react-icons/ci";
 
 
 export default function Navbar() {
@@ -49,11 +49,10 @@ export default function Navbar() {
             </li>
             {isLoggedIn && (
               <>
-                
+
                 <li>
-                  <Link href="/job-alerts">
-                    <AiOutlineBell className="mr-2" />
-                    Job Alerts
+                  <Link href="/preferences">
+                    Preferences
                   </Link>
                 </li>
                 <li>
@@ -63,8 +62,8 @@ export default function Navbar() {
                   </Link>
                 </li>
                 <li>
-                  <button onClick={() => signOut({ callbackUrl: '/' })} 
-                  className="font-medium">
+                  <button onClick={() => signOut({ callbackUrl: '/' })}
+                    className="font-medium">
                     <AiOutlineLogout className="mr-2" />
                     Logout
                   </button>
@@ -99,14 +98,13 @@ export default function Navbar() {
             <>
               <li>
                 <Link href="/saved-jobs" className="font-medium text-sm">
-                  <CiBookmark className="-mr-0.5" />
                   Saved Jobs
+
                 </Link>
               </li>
               <li>
-                <Link href="/job-alerts" className="font-medium text-sm">
-                  <CiBellOn className="-mr-0.5" />
-                  Job Alerts
+                <Link href="/preferences" className="font-medium text-sm">
+                  Preferences
                 </Link>
               </li>
             </>
@@ -142,19 +140,19 @@ export default function Navbar() {
               </li>
               <li>
                 <Link href="/settings" className="justify-between">Settings
-                <AiOutlineSetting className="mr-2" />
+                  <AiOutlineSetting className="mr-2" />
                 </Link>
               </li>
               <li>
-                <button 
-                
+                <button
+
                   onClick={async () => {
                     await signOut({ redirect: false })
                     window.location.href = '/'
                   }}
                   className="justify-between"
                 >Logout
-                <AiOutlineLogout className="mr-2" />
+                  <AiOutlineLogout className="mr-2" />
                 </button>
               </li>
             </ul>

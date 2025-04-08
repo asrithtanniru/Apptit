@@ -2,8 +2,12 @@
 
 import Link from 'next/link'
 import { Search, Briefcase, TrendingUp } from 'lucide-react'
+import { useSession } from 'next-auth/react';
 
 export default function Sources() {
+  const { data: session, status } = useSession();
+  const isLoggedIn = status === 'authenticated';
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
@@ -45,7 +49,7 @@ export default function Sources() {
                 </div>
               </div>
               <p className="text-gray-600 mb-6">{platform.description}</p>
-              <Link 
+              <Link
                 href={platform.link}
                 className="block w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white text-center font-medium rounded-lg transition-colors duration-300"
                 target="_blank"
@@ -64,9 +68,22 @@ export default function Sources() {
         <p className="text-lg mb-6 max-w-2xl mx-auto">
           Create an account to save your favorite listings, get personalized recommendations, and more.
         </p>
-        <Link className="bg-white text-blue-600 font-bold py-3 px-6 rounded-lg hover:bg-gray-100 transition-colors duration-300" href="/login">
-          Get Started
-        </Link>
+        {!isLoggedIn && (
+          <>
+            <Link className="bg-white text-blue-600 font-bold py-3 px-6 rounded-lg hover:bg-gray-100 transition-colors duration-300" href="/login">
+              Get Started
+            </Link>
+          </>
+        )
+        }
+        {isLoggedIn && (
+          <>
+            <Link className="bg-white text-blue-600 font-bold py-3 px-6 rounded-lg hover:bg-gray-100 transition-colors duration-300" href="/jobs">
+              Browse Jobs
+            </Link>
+          </>
+        )
+        }
       </div>
     </div>
   );
