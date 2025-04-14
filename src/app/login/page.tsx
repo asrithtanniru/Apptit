@@ -24,9 +24,10 @@ export default function Login() {
       if (status === "authenticated" && session?.user?.email) {
         setDebugInfo("Session found, attempting to store user...");
         try {
-
           const userData = await storeUserInDB(session);
 
+          console.log("Backend response message:", userData.message);
+          setDebugInfo(`Backend response message: ${userData.message}`);
 
           if (userData && userData.user_id) {
             await update({
@@ -36,10 +37,15 @@ export default function Login() {
                 backendId: userData.user_id
               }
             });
-          }
 
-          setDebugInfo("User stored successfully, redirecting...");
-          router.push('/jobs');
+            setDebugInfo("User stored successfully");
+            if (userData.message === "New user created") {
+              router.push('/preferences');
+            } else {
+              console.log("Existing user, redirecting to jobs page");
+              router.push('/jobs');
+            }
+          }
         } catch (err) {
           setError("Failed to store user data. Please try again.");
           console.error("User storage error:", err);
@@ -52,9 +58,7 @@ export default function Login() {
     }
   }, [session, status, router, update]);
 
-
   const storeUserInDB = async (session: Session): Promise<BackendUserResponse> => {
-
     const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
     const endpoint = `${API_URL}/auth/google`;
 
@@ -79,7 +83,6 @@ export default function Login() {
       console.log("Backend response:", response.data);
       setDebugInfo(`Backend response status: ${response.status}`);
 
-
       if (response.data.user_id) {
         localStorage.setItem('backendUserId', response.data.user_id.toString());
       }
@@ -91,8 +94,6 @@ export default function Login() {
         console.error("Status code:", error.response.status);
         setDebugInfo(`Error status: ${error.response.status}`);
       } else if (error.request) {
-        // Request was made but no response was received
-
         setDebugInfo("No response from server - check if backend is running");
       } else {
         console.error("Request setup error:", error.message);
@@ -133,11 +134,11 @@ export default function Login() {
               </div>
             )}
 
-            {/* {debugInfo && (
+            {debugInfo && process.env.NODE_ENV === 'development' && (
               <div className="mb-4 p-3 bg-blue-50 text-blue-700 rounded-lg text-sm">
-                Debug info: {debugInfo}
+                {debugInfo}
               </div>
-            )} */}
+            )}
 
             <button
               onClick={handleGoogleLogin}
