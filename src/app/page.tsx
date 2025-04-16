@@ -175,20 +175,20 @@ export default function Home() {
           <div className="stats stats-vertical lg:stats-horizontal shadow w-full">
             <div className="stat">
               <div className="stat-title">Jobs Available</div>
-              <div className="stat-value">2.3M+</div>
+              <div className="stat-value">100K+</div>
               <div className="stat-desc">From multiple sources</div>
             </div>
 
             <div className="stat">
               <div className="stat-title">Job Platforms</div>
-              <div className="stat-value">25+</div>
+              <div className="stat-value">5+</div>
               <div className="stat-desc">And growing monthly</div>
             </div>
 
             <div className="stat">
               <div className="stat-title">Users</div>
-              <div className="stat-value">780K</div>
-              <div className="stat-desc">↗︎ 14% from last month</div>
+              <div className="stat-value">100+</div>
+              <div className="stat-desc">More to go</div>
             </div>
           </div>
         </div>

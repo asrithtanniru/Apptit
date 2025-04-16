@@ -149,14 +149,14 @@ export default function ProfilePage() {
                     </div>
                   </div>
                 </div>
-
+{/* 
                 <div className="flex items-center gap-3">
                   <AiOutlineIdcard className="text-primary text-xl" />
                   <div>
                     <div className="text-sm text-gray-500">Account ID</div>
                     <div className="text-sm font-mono">{userId}</div>
                   </div>
-                </div>
+                </div> */}
               </div>
 
               <div className="divider"></div>
