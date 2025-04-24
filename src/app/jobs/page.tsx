@@ -30,8 +30,6 @@ export default function JobsPage() {
       try {
         setLoading(true)
         setLoadingMessage('Loading your personalized job recommendations...')
-
-        // user preferences
         const response = await axios.get(`${API_BASE_URL}/jobs-user-preferences/${backendUserId}`)
 
         if (response.data && response.data["Jobs Based on your preferences"]) {
@@ -69,7 +67,7 @@ export default function JobsPage() {
     }
 
     try {
-      const response = await axios.post<ApiResponse | Job[]>(
+      const response = await axios.post<ApiResponse | any>(
         `${API_BASE_URL}/scrape_jobs`,
         requestData,
         {
@@ -81,9 +79,17 @@ export default function JobsPage() {
 
       console.log('API Response:', response.data)
       let jobsList: Job[] = []
-
-
-      if (!Array.isArray(response.data) && response.data !== null && typeof response.data === 'object') {
+      if (response.data && response.data.jobs && Array.isArray(response.data.jobs)) {
+        jobsList = response.data.jobs.map((job: any) => ({
+          id: job.id ? job.id.toString() : `job-${Math.random().toString(36).substr(2, 9)}`,
+          title: job.title || 'Untitled Position',
+          company: job.company || 'Unknown Company',
+          location: job.location || 'Location not specified',
+          link: job.link || '#',
+          source: job.platform || 'Job Board'
+        }))
+      }
+      else if (!Array.isArray(response.data) && response.data !== null && typeof response.data === 'object') {
         const data = response.data as ApiResponse
 
         if (data.linkedin && Array.isArray(data.linkedin)) {
@@ -115,7 +121,8 @@ export default function JobsPage() {
             }))
           ]
         }
-      } else if (Array.isArray(response.data)) {
+      }
+      else if (Array.isArray(response.data)) {
         jobsList = response.data.map((job) => ({
           id: job.id ? job.id.toString() : `job-${Math.random().toString(36).substr(2, 9)}`,
           title: job.title,
