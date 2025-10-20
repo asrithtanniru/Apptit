@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+````md
+# Apptit
 
-First, run the development server:
+Apptit is a centralized job aggregation platform that scrapes listings from **LinkedIn**, **Glassdoor**, and **Internshala**, providing a unified search experience with improved speed and reliability through multithreading.
+
+---
+
+## 🌟 Overview
+
+Traditional job searches require users to switch between multiple sites and filter through duplicate results.  
+**Apptit** solves this by collecting and consolidating data from top job platforms into one place with an intuitive interface and robust backend.
+
+---
+
+## 🚀 Key Features
+
+- Unified job aggregation from LinkedIn, Glassdoor, and Internshala  
+- Fast and parallel scraping using multithreading  
+- Clean and responsive frontend built with Next.js and TailwindCSS  
+- RESTful API backend powered by FastAPI  
+- Centralized PostgreSQL database for storage and deduplication  
+- Lightweight deployment and modular structure
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend:** Next.js, TailwindCSS  
+- **Backend:** FastAPI, Python (Selenium, AsyncIO)  
+- **Database:** PostgreSQL  
+- **Other:** Multithreading, REST APIs
+
+---
+
+## 💡 Project Setup
+
+### Frontend
+```bash
+cd frontend
+npm install
+npm run dev
+````
+
+### Backend
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cd backend
+pip install -r requirements.txt
+uvicorn main:app --reload
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📂 Folder Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+Apptit
+│
+├── frontend/         # Next.js + TailwindCSS frontend
+├── backend/          # FastAPI + Selenium backend
+└── database/         # PostgreSQL schema and ORM models
+```
+[Backend Repo](https://github.com/asrithtanniru/Apptit-Backend)
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
