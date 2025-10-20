@@ -1,5 +1,3 @@
-
-````md
 # Apptit
 
 Apptit is a centralized job aggregation platform that scrapes listings from **LinkedIn**, **Glassdoor**, and **Internshala**, providing a unified search experience with improved speed and reliability through multithreading.
@@ -8,44 +6,45 @@ Apptit is a centralized job aggregation platform that scrapes listings from **Li
 
 ## 🌟 Overview
 
-Traditional job searches require users to switch between multiple sites and filter through duplicate results.  
+Traditional job searches require users to switch between multiple sites and filter through duplicate results.
 **Apptit** solves this by collecting and consolidating data from top job platforms into one place with an intuitive interface and robust backend.
 
 ---
 
 ## 🚀 Key Features
 
-- Unified job aggregation from LinkedIn, Glassdoor, and Internshala  
-- Fast and parallel scraping using multithreading  
-- Clean and responsive frontend built with Next.js and TailwindCSS  
-- RESTful API backend powered by FastAPI  
-- Centralized PostgreSQL database for storage and deduplication  
-- Lightweight deployment and modular structure
+* Unified job aggregation from LinkedIn, Glassdoor, and Internshala
+* Fast and parallel scraping using multithreading
+* Clean and responsive frontend built with Next.js and TailwindCSS
+* RESTful API backend powered by FastAPI
+* Centralized PostgreSQL database for storage and deduplication
+* Lightweight deployment and modular structure
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Frontend:** Next.js, TailwindCSS  
-- **Backend:** FastAPI, Python (Selenium, AsyncIO)  
-- **Database:** PostgreSQL  
-- **Other:** Multithreading, REST APIs
+* **Frontend:** Next.js, TailwindCSS
+* **Backend:** FastAPI, Python (Selenium, AsyncIO)
+* **Database:** PostgreSQL
+* **Other:** Multithreading, REST APIs
 
 ---
 
 ## 💡 Project Setup
 
 ### Frontend
+
 ```bash
-cd frontend
+cd apptit
 npm install
 npm run dev
-````
+```
 
 ### Backend
 
 ```bash
-cd backend
+cd apptit-backend
 pip install -r requirements.txt
 uvicorn main:app --reload
 ```
@@ -61,7 +60,7 @@ Apptit
 ├── backend/          # FastAPI + Selenium backend
 └── database/         # PostgreSQL schema and ORM models
 ```
-[Backend Repo](https://github.com/asrithtanniru/Apptit-Backend)
 
 ---
+[Backend Repo](https://github.com/AsrithTanniru/Apptit-Backend)
 
